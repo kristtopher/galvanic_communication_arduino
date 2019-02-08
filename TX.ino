@@ -44,14 +44,8 @@ void loop() {
 
 void _2mod(int state) {
   unsigned long currentMillis = millis();
-  if(state){
-    while (currentMillis + interval > millis())  //"espera ocupada"
-      digitalWrite(A_3,state);
-  }
-  else{
-    while (currentMillis + interval > millis())   //"espera ocupada"
-      digitalWrite(A_3,state); 
-  }
+  while (currentMillis + interval > millis())  //"espera ocupada"
+    digitalWrite(A_3,state);//analogWrite(A_3, 127);
 }
 
 void modulation(String packet){
