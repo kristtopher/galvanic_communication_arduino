@@ -6,7 +6,7 @@ const int interruptPin = 2;     // pino de interrupção
 int n = 500;                    // quantidade de amostras para média da condutância elétrica da pele
 int frameSize = 32;             // tamanho do pacote (***a alterar para dinamico *** conforme necessidade)
 int delayTime = 500;
-const long interval = 200;      //200ms interval at which to stop PWM (milliseconds)
+const long interval = 140;      //150ms interval at which to stop PWM (milliseconds)
 volatile bool flag = false;
 volatile bool flag_start = false;
 int overhead = 24;
@@ -63,22 +63,24 @@ void demodulation() {
   //delay(20);          //40                              //ajustar parametro
   while(count < frameSize){
   //for (int i = 0; i < frameSize; i++) {
-    //Serial.println(analogValue = analogRead(GSR)); // debug d leitura do pino
     analogValue = analogRead(GSR);
-    if (analogValue < 100){//lowThreshold - rat 100 //ajustar parametro média móvel
-      packet = packet + '0';
-      delay(interval);//-10
-      count ++;
-    }
-    else if (analogValue > 500) {//lowThreshold + rat 600 //ajustar parametro média móvel
+    //Serial.println(analogValue); // debug d leitura do pino  
+    if (analogValue > 750) {//lowThreshold + rat 600 //ajustar parametro média móvel 800
       packet = packet + '1';
-      delay(interval);//-10
+      delay(interval-5);//-5
       count ++;
     }
+    else if (analogValue < 400){//lowThreshold - rat 100 //ajustar parametro média móvel 400
+      packet = packet + '0';
+      delay(interval-5);//-5
+      count ++;
+    }
+
   }
   count = 0;
   //packet = 00100001000010000110000100111011       
-  //
+  //         00100000000000000110000100111110
+
   //Serial.println(packet);
   Serial.println();
   preamble    = packet.substring(0,8);

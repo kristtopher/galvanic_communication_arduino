@@ -1,5 +1,5 @@
 int delayTime = 500;
-const long interval = 200; // interval at which to stop PWM (milliseconds)
+const long interval = 140; // interval at which to stop PWM (milliseconds)
 unsigned long previousMillis = 0;
 int A_3 = 3;              // saída do PWM (eletrodo)
 int interruptPin = 9;     // sinal de interrupção de envio de mensagem
@@ -50,14 +50,14 @@ void _2mod(int state) {
 
 void modulation(String packet){
   for (int i = 0; i < packet.length(); i++) {
-    Serial.print(packet.charAt(i));
+    //Serial.print(packet.charAt(i));
     if (packet.charAt(i) == '0'){
       _2mod(0);
     }
     else if (packet.charAt(i) == '1')
       _2mod(1);
   }
-  Serial.println();
+  //Serial.println();
 }
 
 String complete_zeros(int len){
