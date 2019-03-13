@@ -1,5 +1,5 @@
 int delayTime = 500;
-const long interval = 140; // interval at which to stop PWM (milliseconds)
+const long interval = 125; // interval at which to stop PWM (milliseconds)
 unsigned long previousMillis = 0;
 int A_3 = 3;              // saída do PWM (eletrodo)
 int interruptPin = 9;     // sinal de interrupção de envio de mensagem
