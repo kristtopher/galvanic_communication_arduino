@@ -12,7 +12,7 @@ void setup() {
 void loop() {
   String data, packet;
   boolean shouldSend;
-  uint32_t skey[4] = {0x9474B8E8, 0xC73BCA7D, 0x53239142, 0xf3c3121a};
+  uint32_t skey[4] = {0x9474B8E8, 0xC73BCA7D, 0x53239142, 0xF3C3121A};
   
   for(int i = 0; i < 4; i++){
     //control = "00";               // pacote de dados

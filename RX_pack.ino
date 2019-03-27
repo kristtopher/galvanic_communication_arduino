@@ -11,21 +11,21 @@ volatile bool flag_start = false;
 String packet,data, parity;
 uint32_t skey[4];
 int id;
-
+int hit=0,mis=0; 
 void setup() {
   long sum=0;
   Serial.begin(9600);
   pinMode(interruptPin, INPUT);
   delay(500);
   
-  for(int i=0;i < n;i++){
-    sensorValue = analogRead(GSR);
-    sum += sensorValue;
-    delay(5);
-  }
-  lowThreshold = sum / n;
+//  for(int i=0;i < n;i++){
+//    sensorValue = analogRead(GSR);
+//    sum += sensorValue;
+//    delay(5);
+//  }
+//  lowThreshold = sum / n;
   Serial.print(F("lowThreshold = ")); // calcular max e min para média móvel
-  Serial.println(lowThreshold);
+//  Serial.println(lowThreshold);
   
   attachInterrupt(digitalPinToInterrupt(interruptPin), catch_signal, HIGH);
 }
@@ -59,7 +59,7 @@ void demodulation() {
 
   while(count < frameSize){
     analogValue = analogRead(GSR);
-    //Serial.println(analogValue); // debug d leitura do pino  
+    //piSerial.println(analogValue); // debug d leitura do pino  
     if (analogValue > 700) {//lowThreshold + rat 600 //ajustar parametro média móvel 800
       packet = packet + '1';
       delay(interval);
@@ -80,13 +80,22 @@ void demodulation() {
     id   = binToInt(packet.substring(0 ,  3));
     data = packet.substring(3 , 35);
     skey[id] = bitArrayToInt32(data, data.length());
-    Serial.println(id);
-    //Serial.println(data);
+    Serial.print(id);
+    Serial.print(F(" 0x"));
     Serial.println(skey[id],HEX);
+    hit += 1;
   }
   else{
-    Serial.println(F("ERROR"));
+    Serial.print(F("ERROR IN PACKGE "));
     Serial.println(packet);
+    mis += 1;
+  }
+
+  if(hit+mis==100){
+    Serial.print(F("hit = "));
+    Serial.println(hit);
+    Serial.print(F("mis = "));
+    Serial.println(mis);
   }
  
   packet = "";
